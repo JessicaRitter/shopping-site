@@ -84,26 +84,24 @@ def show_shopping_cart():
 
     for melon_id, count in shopping_cart.items():
         quantity = count
-        # m_id = melons.get_by_id(melon_id).melon_id
+
         cost = melons.get_by_id(melon_id).price
-        print cost
+
         total += (cost * quantity)
-        print "this is total", total
+
         m_object = melons.get_by_id(melon_id)
-        print "object", m_object
+
         m_object.quantity = quantity
+
         m_object.total = (cost * quantity)
-        print m_object
+
         melons_ordered.append(m_object)
 
-    print melons_ordered, total
+    print melons_ordered
 
-
-
-    # for melon_id in shopping_cart:
-    #     melon_to_add = melons.get_by_id(melon_id)
-    #     melons_ordered.append(melon to add)
-    return render_template("cart.html")
+    return render_template("cart.html",
+                           melons_ordered=melons_ordered,
+                           order_total=total)
 
 
 @app.route("/add_to_cart/<melon_id>")
@@ -135,7 +133,7 @@ def add_to_cart(melon_id):
 
     flash("melon successfully added to cart")
 
-    return render_template("/cart.html")
+    return redirect('/cart')
 
 
 
